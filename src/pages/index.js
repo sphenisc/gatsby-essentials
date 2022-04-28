@@ -4,12 +4,13 @@ import Img from "gatsby-image"
 
 import Layout from "../components/layout"
 
-
+import SEO from "../components/seo"
 
 // markup
 const IndexPage = ({ data }) => {
   return (
 	<Layout>
+		<SEO />
 		<section className="hero">
 			<figure>
 				<Img

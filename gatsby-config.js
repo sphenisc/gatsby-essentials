@@ -1,7 +1,11 @@
 module.exports = {
 	siteMetadata: {
-		siteUrl: "https://www.yourdomain.tld",
-		title: "mysite20211120",
+		title: `ESSENTIALS`,
+		description: `美味しい食材と食事を探究するサイト`,
+		lang: `ja`,
+		siteUrl: "https://ssg2.netlify.app/",
+		locale: `ja_JP`,
+		fbappid: `xxxxxxxx`,
 	},
 	plugins: [
 		`gatsby-transformer-sharp`,
@@ -13,5 +17,19 @@ module.exports = {
 				path: `${__dirname}/src/images/`,
 			},
 		},
+		`gatsby-plugin-react-helmet`,
+		{
+			resolve: `gatsby-plugin-manifest`,
+			options: {
+				name: `ESSENTIALS エッセンシャルズ`,
+				short_name: `ESSENTIALS`,
+				start_url: `/`,
+				background_color: `#ffffff`,
+				theme_color: `#477294`,
+				display: `standalone`,
+				icon: `src/images/icon.png`
+			},
+		},
+		`gatsby-plugin-offline`,
 	],
 };
