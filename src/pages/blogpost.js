@@ -1,6 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
 
@@ -20,12 +20,12 @@ const options = {
 			</h2>
 		),
 		[BLOCKS.EMBEDDED_ASSET]: node => (
-			<img
-				src={node.data.target.fields.file["ja-JP"].url}
+			<GatsbyImage
+				image={node.data.target.gatsbyImageData}
 				alt={
-					node.data.target.fields.description
-					? node.data.target.fields.description["ja-JP"]
-					: node.data.target.fields.title["ja-JP"]
+					node.data.target.description
+					? node.data.target.description
+					: node.data.target.title
 				}
 			/>
 		),
@@ -36,8 +36,8 @@ export default ({data}) => (
 	<Layout>
 		<div className="eyecatch">
 			<figure>
-				<Img
-					fluid={data.contentfulBlogPost.eyecatch.fluid}
+				<GatsbyImage
+					image={data.contentfulBlogPost.eyecatch.gatsbyImageData}
 					alt={data.contentfulBlogPost.eyecatch.description}
 				/>
 			</figure>
@@ -95,11 +95,29 @@ export const query = graphql`
 				id
 			}
 			eyecatch {
-				
+				gatsbyImageData(layout: FULL_WIDTH)
 				description
+				file {
+					details {
+						image {
+							width
+							height
+						}
+					}
+					url
+				}
 			}
 			content {
 				raw
+				references {
+					... on ContentfulAsset {
+						contentful_id
+						__typename
+						gatsbyImageData(layout: FULL_WIDTH)
+						title
+						description
+					}
+				}
 			}
 		}
 	}

@@ -1,6 +1,6 @@
-import * as React from "react"
+import React from "react"
 import { graphql } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -22,8 +22,8 @@ const IndexPage = ({ data, location }) => {
 		/>
 		<div className="eyecatch">
 			<figure>
-				<Img
-					fluid={data.about.childImageSharp.fluid}
+				<GatsbyImage
+					image={data.about.childImageSharp.gatsbyImageData}
 					alt="ブルーベリー＆ヨーグルト"
 				/>
 			</figure>
@@ -70,9 +70,7 @@ export const query = graphql`
 	query {
 		about: file(relativePath: {eq: "about.jpg"}) {
 			childImageSharp {
-				fluid(maxWidth: 1600) {
-					...GatsbyImageSharpFluid_withWebp
-				}
+				gatsbyImageData(layout: FULL_WIDTH)
 				original {
 					src
 					height
