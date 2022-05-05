@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
@@ -10,6 +10,9 @@ import { faChevronLeft, faChevronRight, faCheckSquare } from "@fortawesome/free-
 
 import { renderRichText } from "gatsby-source-contentful/rich-text"
 import { BLOCKS } from "@contentful/rich-text-types"
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer"
+
+import SEO from "../components/seo"
 
 const options = {
 	renderNode: {
@@ -37,8 +40,18 @@ const options = {
 	},
 }
 
-export default ({data}) => (
+export default ({data, pageContext, location}) => (
 	<Layout>
+		<SEO
+			pagetitle={data.contentfulBlogPost.title}
+			pagedesc={`${documentToPlainTextString(
+				JSON.parse(data.contentfulBlogPost.content.raw)
+			).slice(0, 70)}…`}
+			pagepath={location.pathname}
+			blogimg={`https:${data.contentfulBlogPost.eyecatch.file.url}`}
+			pageimgw={data.contentfulBlogPost.eyecatch.file.details.image.width}
+			pageimgh={data.contentfulBlogPost.eyecatch.file.details.image.height}
+		/>
 		<div className="eyecatch">
 			<figure>
 				<GatsbyImage
@@ -70,18 +83,22 @@ export default ({data}) => (
 					{renderRichText(data.contentfulBlogPost.content, options)}
 				</div>
 				<ul className="postlink">
+					{pageContext.next && (
 					<li className="prev">
-						<a href="base-blogpost.html" rel="prev">
+						<Link to={`/blog/post/${pageContext.next.slug}/`} rel="prev">
 							<FontAwesomeIcon icon={faChevronLeft} />
-							<span>前の記事</span>
-						</a>
+							<span>{pageContext.next.title}</span>
+						</Link>
 					</li>
+					)}
+					{pageContext.previous && (
 					<li className="next">
-						<a href="base-blogpost.html" rel="next">
-							<span>次の記事</span>
+						<Link to={`/blog/post/${pageContext.previous.slug}/`} rel="next">
+							<span>{pageContext.previous.title}</span>
 							<FontAwesomeIcon icon={faChevronRight} />
-						</a>
+						</Link>
 					</li>
+					)}
 				</ul>
 			</div>
 		</article>
@@ -89,8 +106,8 @@ export default ({data}) => (
 )
 
 export const query = graphql`
-	query {
-		contentfulBlogPost {
+	query($id: String!) {
+		contentfulBlogPost(id: { eq: $id }) {
 			title
 			publishDateJP: publishDate(formatString: "YYYY年MM月DD日")
 			publishDate
