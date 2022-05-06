@@ -1,9 +1,9 @@
 module.exports = {
 	siteMetadata: {
 		title: `ESSENTIALS`,
-		description: `美味しい食材と食事を探究するサイト`,
+		description: `おいしい食材と食事を探求するサイト`,
 		lang: `ja`,
-		siteUrl: "https://ssg2.netlify.app/",
+		siteUrl: `https://ssg2.netlify.app`,
 		locale: `ja_JP`,
 		fbappid: `xxxxxxxx`,
 	},
@@ -28,7 +28,7 @@ module.exports = {
 				background_color: `#ffffff`,
 				theme_color: `#477294`,
 				display: `standalone`,
-				icon: `src/images/icon.png`
+				icon: `src/images/icon.png`,
 			},
 		},
 		`gatsby-plugin-offline`,
@@ -42,4 +42,4 @@ module.exports = {
 		},
 		`gatsby-plugin-image`,
 	],
-};
+}
